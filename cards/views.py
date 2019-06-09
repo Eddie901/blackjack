@@ -7,7 +7,7 @@ from .models import Card
 
 
 def index(request):
-    cards_list = Card.objects.order_by('-value')
+    cards_list = Card.objects.order_by('-id')
     context = {
         'cards_list': cards_list,
     }
