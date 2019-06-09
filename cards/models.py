@@ -12,16 +12,16 @@ class Card(models.Model):
     # there are 52 cards with ids from 0 to 51
 
     def suit(self):
-        return id / 13  # the suits are [0..12] = clubs, [13..25] = diamonds etc
+        return (self.id - 1) // 13  # the suits are [0..12] = clubs, [13..25] = diamonds etc
 
     def rank(self):
-        return id % 13  # the ranks are 0, 13, 26, 39 are the aces, 1, 14, 27,40 are the 2s, etc
+        return (self.id - 1) % 13  # the ranks are 0, 13, 26, 39 are the aces, 1, 14, 27,40 are the 2s, etc
 
     def __str__(self):
-        return "The " + self.RANKS[self.rank] + " of " + self.SUITS[self.suit] + " has value " + str(self.value())
+        return "The " + self.RANKS[int(self.rank())] + " of " + self.SUITS[int(self.suit())] + " has value " + str(self.value())
 
     def value(self):
-        return self.VALUES[self.rank]
+        return self.VALUES[self.rank()]
 
     def img_url(self):
-        return self.RANKS[self.rank] + "_of_" + self.SUITS[self.suit] + ".png"
+        return self.RANKS[int(self.rank())] + "_of_" + self.SUITS[int(self.suit())] + ".png"
