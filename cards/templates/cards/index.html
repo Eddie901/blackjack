@@ -1,0 +1,15 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'cards/style.css' %}">
+
+<h3>Cards index</h3>
+{% if cards_list %}
+    <ul>
+    {% for card in cards_list %}
+        <li><a href="{% url 'cards:show' card.id %}">{{ card }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No cards are available.</p>
+{% endif %}
+
