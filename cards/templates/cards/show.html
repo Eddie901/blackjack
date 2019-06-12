@@ -1,7 +1,8 @@
-{{ card }}
+{% load static from staticfiles %}
 
-{% load static %}
-<img src="{% static "cards/7_of_clubs.png" %}" alt="{{ card.img_url }}">
+<h3>{{ card }}</h3>
+
+<img src="{% static "/cards/images/cards/" %}{{ card.img_url }}" %}" width="200" alt="{{ card.img_url }}">
 
 <p>
     <a href="{% url 'cards:index' %}">Back to cards index</a>

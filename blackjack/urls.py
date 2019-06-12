@@ -15,8 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('cards/', include('cards.urls')),
     path('admin/', admin.site.urls),
-]
+] # + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# ... the rest of your URLconf here ...
+
+# Finally got static images working using
+#  python3 manage.py collectstatic
+# to copy all static files into the blackjack/static directory
+# Then had to use this semi-hard-coded url src
+# <img src="{% static "/cards/images/cards/" %}{{ card.img_url }}" %}" alt="{{ card.img_url }}">
+# which succeeded in finding the image files
+
+# The following adds some sort of static url regexp to enable mapping the urls??
+urlpatterns += staticfiles_urlpatterns()
+
+
