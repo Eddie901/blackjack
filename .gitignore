@@ -1,2 +1,3 @@
 .idea/
 blackjack/static/
+cards/__pycache__/
