@@ -42,10 +42,15 @@ class Hand:
             v += card.value()
         return v
 
+    def bust(self):
+        return True if self.value() > 21 else False
+
     def __str__(self):
         output = ""
         for card in self.cards:
-            output = output + str(card)
+            output = output + str(card) + " "
+        output += "total value = " + str(self.value())
+        output += " BUST!!!" if self.bust() else ""
         return output
 
 class Deck:
@@ -54,4 +59,10 @@ class Deck:
     # next pops of the first element and shunts up the rest
 
     def __init__(self):
-        self.cards = Card.objects.all().shuffle()
+        self.cards = Card.objects.all().order_by('?')[:52:1]
+
+    def next(self):
+        return self.cards.pop(0)
+
+    def isEmpty(self):
+        return len(self.cards) == 0
