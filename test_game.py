@@ -12,12 +12,12 @@ dealer.add_card(deck.next())
 print("Dealer holds: " + str(dealer))
 
 while True:
-    action = input("[T]wist or [S]tick? ").strip().upper()
-    if action not in "TS" or len(action) != 1:
+    action = input("[H]it or [S]tick? ").strip().upper()
+    if action not in "HS" or len(action) != 1:
         print("I don't know how to do that")
         continue
 
-    if action == 'T':
+    if action == 'H':
         card = deck.next()
         player.add_card(card)
         print("You drew: " + str(card))
@@ -29,16 +29,16 @@ while True:
         print("You stuck on: " + str(player))
         print("Dealer holds: " + str(dealer))
 
-        while dealer.value() < 17:
+        while dealer.soft_value() < 17:
             card = deck.next()
             print("Dealer draws: " + str(card))
             dealer.add_card(card)
 
         print("Dealer holds: " + str(dealer))
-        if player.value() > dealer.value() or dealer.bust():
+        if player.soft_value() > dealer.soft_value() or dealer.bust():
             print("You win!!!")
-        elif player.value() == dealer.value():
-            print("You win!!!")
+        elif player.soft_value() == dealer.value():
+            print("You draw!!")
         else:
             print("You lose :(")
         break

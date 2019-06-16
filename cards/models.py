@@ -8,7 +8,7 @@ class Card(models.Model):
     RANKS = ["ace", "2", "3", "4", "5", "6",
              "7", "8", "9", "10", "jack", "queen", "king"]
     SHORT_RANKS = ["A", "2", "3", "4", "5", "6",
-             "7", "8", "9", "T", "J", "Q", "K"]
+                   "7", "8", "9", "T", "J", "Q", "K"]
     VALUES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
     # there are 52 cards with ids from 0 to 51
@@ -42,6 +42,19 @@ class Hand:
             v += card.value()
         return v
 
+    def soft_value(self):
+        v = 0
+        soft_ace = False
+        for card in self.cards:
+            # for the first Ace only we can add 10 to the value
+            if card.value() == 1 and soft_ace == False:
+                v += 10
+                soft_ace = True
+            v += card.value()
+        if soft_ace == True and v > 21:
+            v -= 10  # don't go bust by counting an Ace as 10
+        return v
+
     def bust(self):
         return True if self.value() > 21 else False
 
@@ -49,9 +62,15 @@ class Hand:
         output = ""
         for card in self.cards:
             output = output + str(card) + " "
-        output += "total value = " + str(self.value())
+        extra_msg = ""
+        if len(self.cards) == 2 and self.soft_value() == 21:
+            extra_msg = "BLACKJACK!!!"
+        elif self.soft_value() != self.value():
+            extra_msg = " (soft " + str(self.soft_value()) + ")"
+        output += "total value = " + str(self.value()) + extra_msg
         output += " BUST!!!" if self.bust() else ""
         return output
+
 
 class Deck:
     # initialize with array of 52 cards shuffled
